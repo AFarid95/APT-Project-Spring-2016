@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    background: url(SearchEngineBackground.jpg) no-repeat center center fixed;
+	background-size: 100%;
+}
+</style>
+<title>Edeeny</title>
+</head>
+<body>
+<br><br><br><br><br>
+<br><br><br><br><br>
+<br><br><br><br><br>
+<br><br><br><br><br>
+<div align="center">
+<form action="Search" method="POST">
+<input type="text" name="query" style="width:500px;height:25px;font-size:14pt;border:1px solid red;background-color:#EEEEEE"
+onkeyup="viewSuggestions(this.value)" autocomplete="off">
+<br>
+<div id="suggestions" align="center" style="width:500px;text-align:left;"></div>
+<br>
+<input type="submit" value="Search" style="font-size:12pt;border:2px solid green;;background-color:white"/>
+</form>
+</div>
+<script>
+function viewSuggestions(str) {
+  if (str.length==0) { 
+    document.getElementById("suggestions").innerHTML="no string";
+    document.getElementById("suggestions").style.border="1px solid black";
+    return;
+  }
+  if (window.XMLHttpRequest) {
+    // code for IE7+, Firefox, Chrome, Opera, Safari
+    xmlhttp=new XMLHttpRequest();
+  } else {  // code for IE6, IE5
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xmlhttp.onreadystatechange=function() {
+    if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+	 <!-- && xmlhttp.status==200) { -->
+      document.getElementById("suggestions").innerHTML=xmlhttp.responseText;
+      document.getElementById("suggestions").style.border="1px solid black";
+    }
+	else
+		document.getElementById("suggestions").innerHTML="ready state = "+xmlhttp.readyState+", status = "+xmlhttp.status;
+  }
+  xmlhttp.open("GET","Suggestions.php?q="+str,true);
+  xmlhttp.send();
+}
+</script>
+</body>
+</html>
